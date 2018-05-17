@@ -1,0 +1,18 @@
+{% extends "base.djhtml" %}
+{% block content %}
+<div class="matchTitleWidth">
+  <div class="innerContainer" style="width: 380px;">
+    <div id="helper">
+      <font size="5">{{ request.user.username }}'s Screen Name<br />
+	Modifying Node</font>
+      <form method="post" action=".">
+	{% csrf_token %}
+	{{ form.as_p }}
+	<br />
+	<input type="submit" value="Register User Profile" />
+	<input type="button" value="Cancel" onclick="history.go(-1);return true;" />
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

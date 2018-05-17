@@ -1,0 +1,93 @@
+{% extends "base.djhtml" %}
+{% block content %}
+<script type="text/javascript">
+ $(function() {   
+   $(document).tooltip({
+     show: 2500,
+     open: function( event, ui ) {
+       $(ui.tooltip).append('<a style="color: white;" target="_blank" href="http://www.theokamecke.com/functional_detail.php?cat_id=46">Eiffel Dream - Theo Kamecke<div style="font-size: 0.7em;">Click to open a new tab for the artist\'s page</div></a>');
+     },
+     position: {
+       my: "center center",
+       at: "center bottom",
+       using: function( position, feedback ) {
+         $( this ).css( position );
+         $( "<div>" )
+            .addClass( "arrow top center" )
+            .appendTo( this );
+       }
+     },
+     close: function (event, ui) {
+       ui.tooltip.hover(
+
+         function () {
+           $(this).stop(true).fadeTo(400, 1);
+         },
+	 
+         function () {
+           $(this).fadeOut("400", function () {
+             $(this).remove();
+           })
+         });
+     }
+   });   
+ });
+</script>
+<style>
+  .ui-tooltip, .arrow:after {
+    background: black;
+    border: 2px solid white;
+  }
+  .ui-tooltip {
+    padding: 10px 20px;
+    color: white;
+    border-radius: 20px;
+    box-shadow: 0 0 7px black;
+    width: 250px; 
+    z-index: 2;
+    text-align: center;
+    vertical-align: middle;
+  }
+  .arrow {
+    width: 70px;
+    height: 16px;
+    overflow: hidden;
+    position: absolute;
+    left: 50%;
+    margin-left: -35px;
+    bottom: -16px;
+    z-index: 2;
+  }
+  .arrow.top {
+    top: -16px;
+    bottom: auto;
+  }
+  .arrow.left {
+    left: 20%;
+  }
+  .arrow:after {
+    content: "";
+    position: absolute;
+    left: 20px;
+    top: -20px;
+    width: 25px;
+    height: 25px;
+    box-shadow: 6px 5px 9px -9px black;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+  .arrow.top:after {
+    bottom: -20px;
+    top: auto;
+  }
+</style>
+<div id="mainPic" class="matchTitleWidth matchTitleHeight">  
+{% if request.user.is_authenticated %}
+<a href="/user/">
+{% else %} 
+<a href="/login/">
+{% endif %}
+<img id="cover" src="{{ STATIC_URL }}images/cBox_closed.jpg" alt="Eiffel Dream - Theo Kamecke" title=" " /></a>
+</div>
+{% endblock %}

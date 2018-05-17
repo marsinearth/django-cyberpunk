@@ -1,0 +1,719 @@
+{% extends "base.djhtml" %}
+{% block content %}
+{% for char in chardata %}
+<div class="matchTitleWidth">
+  <div id="helper">
+    <font size="5">{% if char.locked %}<img src="{{ STATIC_URL }}images/lock.png" width="20" height="20"/>&nbsp;{% endif %}{{ char.name }}'s Data Node</font>    
+    </div>
+  </div>
+</div>
+</div> <!--end of div container -->
+<div id="packery">
+
+<!-- table width=100% -->
+<div class="section">
+  <div class="handle"></div>
+  <div id="helper">
+    <font size="5" style="text-align: center; margin-bottom: 15px;">Statistics</font>
+    {% if messages %}
+      {% for message in messages %}
+	{% if 'stat' in message.tags %}
+	  <font size="4" style="color:red;">{{ message }}</font>
+	{% endif %}
+      {% endfor %}
+    {% endif %} 
+    <table>
+      <tr><th class="border-bottom">Name</th><th class="border-bottom">Point</th><th class="border-bottom">Bonus</th></tr>
+      {% for stat in charobj.stat.all %}
+	<tr><th>Body</th><td>{{ stat.body }}</td><td>{{ stat.bodybonus }}</td></tr>
+	<tr><th>Reflex</th><td>{{ stat.reflex }}</td><td>{{ stat.reflexbonus }}</td></tr>
+	<tr><th>Move</th><td>{{ stat.move }}</td><td>{{ stat.movebonus }}</td></tr>
+	<tr><th>Intelligence</th><td>{{ stat.intelligence }}</td><td>{{ stat.intelbonus }}</td></tr>
+	<tr><th>Tech</th><td>{{ stat.tech }}</td><td>{{ stat.techbonus }}</td></tr>
+	<tr><th>Cool</th><td>{{ stat.cool }}</td><td>{{ stat.coolbonus }}</td></tr>
+	<tr><th>Empathy</th><td>{{ stat.empathy }}</td><td>{{ stat.empbonus }}</td></tr>
+	<tr><th>Attractiveness</th><td>{{ stat.attractiveness }}</td><td>{{ stat.attrbonus }}</td></tr>
+	<tr><th>Luck</th><td>{{ stat.luck }}</td><td>{{ stat.luckbonus }}</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+
+<div class="section equipped">
+  <div class="handle"></div>
+  <div id="helper">
+    <font size="5" style="margin-bottom: 15px;">Equipped Armor</font>
+    <table>
+      <tr><th class="border-bottom">Category</th><th class="border-bottom">Name</th><th class="border-bottom">Point</th><th>&nbsp;</th></tr>
+    {% if eqhead %}
+      {% for arm in eqhead|dictsort:"amname" %}
+	{% if not forloop.first %}<tr><td colspan="3">&emsp;</td></tr>{% endif %}
+	<tr><th>Head: </th><td>{{ arm.amname }}</td><td>{{ arm.ampoint }}</td></tr>
+	  <tr><td>&emsp;</td><td colspan="2"><input style="width:100%;" type="button" value="Unequip" onclick="location.href='/obj/unequip/{{ char.name }}/armor/{{ arm.id }}';" /></td></tr>
+      {% endfor %}
+    {% else %}
+      {% if not forloop.first %}<tr><td colspan="3">&emsp;</td></tr>{% endif %}
+      <tr><th>Head: </th><td>None</td><td>N/A</td></tr>
+    {% endif %}
+    {% if eqtorso %}
+      {% for arm in eqtorso|dictsort:"amname" %}
+	{% if not forloop.first %}<tr><td colspan="3">&emsp;</td></tr>{% endif %}
+	<tr><th>Torso: </th><td>{{ arm.amname }}</td><td>{{ arm.ampoint }}</td></tr>
+	  <tr><td>&emsp;</td><td colspan="2"><input style="width:100%;" type="button" value="Unequip" onclick="location.href='/obj/unequip/{{ char.name }}/armor/{{ arm.id }}';" /></td></tr>
+      {% endfor %}
+    {% else %}
+      {% if not forloop.first %}<tr><td colspan="3">&emsp;</td></tr>{% endif %}
+      <tr><th>Torso: </th><td>None</td><td>N/A</td></tr>
+    {% endif %}
+    {% if eqLA %}
+      {% for arm in eqLA|dictsort:"amname" %}
+	{% if not forloop.first %}<tr><td colspan="3">&emsp;</td></tr>{% endif %}
+	<tr><th>Left Arm: </th><td>{{ arm.amname }}</td><td>{{ arm.ampoint }}</td></tr>
+	  <tr><td>&emsp;</td><td colspan="2"><input style="width:100%;" type="button" value="Unequip" onclick="location.href='/obj/unequip/{{ char.name }}/armor/{{ arm.id }}';" /></td></tr>
+      {% endfor %}
+    {% else %}
+      {% if not forloop.first %}<tr><td colspan="3">&emsp;</td></tr>{% endif %}
+      <tr><th>Left Arm: </th><td>None</td><td>N/A</td></tr>
+    {% endif %}
+    {% if eqRA %}
+      {% for arm in eqRA|dictsort:"amname" %}
+	{% if not forloop.first %}<tr><td colspan="3">&emsp;</td></tr>{% endif %}
+	<tr><th>Right Arm: </th><td>{{ arm.amname }}</td><td>{{ arm.ampoint }}</td></tr>
+	  <tr><td>&emsp;</td><td colspan="2"><input style="width:100%;" type="button" value="Unequip" onclick="location.href='/obj/unequip/{{ char.name }}/armor/{{ arm.id }}';" /></td></tr>
+      {% endfor %}
+    {% else %}
+      {% if not forloop.first %}<tr><td colspan="3">&emsp;</td></tr>{% endif %}
+      <tr><th>Right Arm: </th><td>None</td><td>N/A</td></tr>
+    {% endif %}
+    {% if eqLL %}
+      {% for arm in eqLL|dictsort:"amname" %}
+	{% if not forloop.first %}<tr><td colspan="3">&emsp;</td></tr>{% endif %}
+	<tr><th>Left Leg: </th><td>{{ arm.amname }}</td><td>{{ arm.ampoint }}</td></tr>
+	  <tr><td>&emsp;</td><td colspan="2"><input style="width:100%;" type="button" value="Unequip" onclick="location.href='/obj/unequip/{{ char.name }}/armor/{{ arm.id }}';" /></td></tr>
+      {% endfor %}
+    {% else %}
+      {% if not forloop.first %}<tr><td colspan="3">&emsp;</td></tr>{% endif %}
+      <tr><th>Left Leg: </th><td>None</td><td>N/A</td></tr>
+    {% endif %}
+    {% if eqRL %}
+      {% for arm in eqRL|dictsort:"amname" %}
+	{% if not forloop.first %}<tr><td colspan="3">&emsp;</td></tr>{% endif %}
+	<tr><th>Right Leg: </th><td>{{ arm.amname }}</td><td>{{ arm.ampoint }}</td></tr>
+	  <tr><td>&emsp;</td><td colspan="2"><input style="width:100%;" type="button" value="Unequip" onclick="location.href='/obj/unequip/{{ char.name }}/armor/{{ arm.id }}';" /></td></tr>
+      {% endfor %}
+    {% else %}
+      {% if not forloop.first %}<tr><td colspan="3">&emsp;</td></tr>{% endif %}
+      <tr><th>Right Leg: </th><td>None</td><td>N/A</td></tr>
+    {% endif %}
+    </table>
+  </div>
+</div>
+
+{% if eqweapons %}
+  <div class="section equipped">
+  <div class="handle"></div>
+    <div id="helper">
+      <font size="5" style="margin-bottom: 15px;">Equipped Weapon</font>
+      <table>
+	{% for wep in eqweapons|dictsort:"wpname" %}
+	 {% if not forloop.first %}<tr><td colspan="2">&emsp;</td></tr>{% endif %}
+	  {% for verbose, field in wep %}
+	    {% if verbose == "Name" %}  
+	      <tr><th>{{ verbose }}</th><td>{{ field }}</td></tr>
+	    {% endif %}<!--end of forloop condition-->
+	  {% endfor %}<!--end of field-->
+	  <tr><td colspan="2"><input style="width:100%;" type="button" value="Unequip" onclick="location.href='/obj/unequip/{{ char.name }}/weapon/{{ wep.id }}';" /></td></tr>
+	{% endfor %}<!--end of wep-->
+      </table>
+    </div>
+  </div>
+{% endif %}<!--end of eqweapons-->
+
+{% if eqvehicle %}
+  <div class="section equipped">
+  <div class="handle"></div>
+    <div id="helper">
+      <font size="5" style="margin-bottom: 15px;">Equipped Vehicle</font>
+      <table>
+	{% for veh in eqvehicle|dictsort:"vcname" %}
+	  {% if not forloop.first %}<tr><td colspan="2">&emsp;</td></tr>{% endif %}
+	  {% for verbose, field in veh %}
+	    {% if verbose == "Name" %}
+	      <tr><th>{{ verbose }}</th><td>{{ field }}</td></tr>
+	    {% endif %}
+	  {% endfor %}<!--end of field-->
+	  <tr><td colspan="2"><input style="width:100%;" type="button" value="Unequip" onclick="location.href='/obj/unequip/{{ char.name }}/vehicle/{{ veh.id }}';" /></td></tr>
+	{% endfor %}<!--endfor for veh in eqvehicle-->
+      </table>
+    </div>
+  </div>
+{% endif %}<!--end of eqvehicle-->
+
+{% if eqcyberbio %}
+  <div class="section equipped">
+  <div class="handle"></div>
+    <div id="helper">
+      <font size="5" sty;e="margin-bottom: 15px;">Equipped<br />
+	Cybertech/Bioware</font>
+      <table>
+	{% for cyb in eqcyberbio|dictsort:"eqname" %}
+	  {% if not forloop.first %}<tr><td colspan="2">&emsp;</td></tr>{% endif %}
+	  {% for verbose, field in cyb %}
+	    {% if verbose == "Name" %}  
+	      <tr><th>{{ verbose }}</th><td>{{ field }}</td></tr>
+	    {% endif %}<!--end of forloop condition-->
+	  {% endfor %}<!--end of field-->
+	  <tr><td colspan="2"><input style="width:100%;" type="button" value="Unequip" onclick="location.href='/obj/unequip/{{ char.name }}/cyber_bio/{{ cyb.id }}';" /></td></tr>
+	{% endfor %}<!--end of cyb-->
+      </table>
+    </div>
+  </div>
+{% endif %}<!--end of eqcyberbio-->
+<!--closing of equipped gears-->
+
+<!-- skill list -->
+{% if specials %}
+  <div class="section skill">
+  <div class="handle"></div>
+    <div id="helper">
+      <font size="5">Special Skills</font>
+      <table>
+	<tr><th>Name</th><th>Point</th><th>Bonus</th></tr>
+	{% for skill in specials %}
+	  {% if not forloop.first %}<tr><td colspan="3">&emsp;</td></tr>{% endif %}
+	  <tr><td>{{ skill.name }}</td><td>{{ skill.point }}</td><td>{{ skill.bonus }}</td></tr>
+	    <td colspan="3">	      
+	      <form action="/obj/delete/{{ char.name }}/skill/{{ skill.id }}">	  
+		<input type="button" value="Edit" style="width:48%;" onclick="location.href='/obj/edit/{{ char.name }}/skill/{{ skill.id }}';" />
+		<input id="Skill" type="submit" style="width:48%;" value="Delete" onclick="return confirm('Are you sure to delete this '+this.id+'?');" />
+	      </form>
+	    </td></tr>
+	{% endfor %}<!--end of skill-->
+      </table>
+    </div>
+  </div>
+{% endif %}
+<!--end of specials-->
+
+{% if attrs %}
+  <div class="section skill">
+  <div class="handle"></div>
+    <div id="helper">
+      <font size="5">Attractiveness Skills</font>
+      <table>
+	<tr><th>Name</th><th>Point</th><th>Bonus</th></tr>
+	{% for skill in attrs %}
+	  {% if not forloop.first %}<tr><td colspan="3">&emsp;</td></tr>{% endif %}
+	  <tr><td>{{ skill.name }}</td><td>{{ skill.point }}</td><td>{{ skill.bonus }}</td></tr>
+	    <td colspan="3">
+	      <form action="/obj/delete/{{ char.name }}/skill/{{ skill.id }}">
+		<input type="button" value="Edit" style="width:48%;" onclick="location.href='/obj/edit/{{ char.name }}/skill/{{ skill.id }}';" />
+		<input  id="Skill" type="submit" style="width:48%;" value="Delete" onclick="return confirm('Are you sure to delete this '+this.id+'?');" />
+	      </form>
+	  </td></tr>
+	{% endfor %}<!--end of skill-->
+      </table>
+    </div>
+  </div>
+{% endif %}
+<!--end of attrs-->
+
+{% if bodies %}
+  <div class="section skill">
+  <div class="handle"></div>
+    <div id="helper">
+      <font size="5">Body Skills</font>
+      <table>
+	<tr><th>Name</th><th>Point</th><th>Bonus</th></tr>
+	{% for skill in bodies %}
+	  {% if not forloop.first %}<tr><td colspan="3">&emsp;</td></tr>{% endif %}
+	  <tr><td>{{ skill.name }}</td><td>{{ skill.point }}</td><td>{{ skill.bonus }}</td></tr>
+	    <td colspan="3">
+	      <form action="/obj/delete/{{ char.name }}/skill/{{ skill.id }}">
+		<input type="button" value="Edit" style="width:48%;" onclick="location.href='/obj/edit/{{ char.name }}/skill/{{ skill.id }}';" />
+		<input  id="Skill" type="submit" style="width:48%;" value="Delete" onclick="return confirm('Are you sure to delete this '+this.id+'?');" />
+	      </form>
+	    </td></tr>
+	{% endfor %}<!--end of skill-->
+      </table>
+    </div>
+  </div>
+{% endif %}
+<!--end of bodies-->
+
+{% if cools %}
+  <div class="section skill">
+  <div class="handle"></div>
+    <div id="helper">
+      <font size="5">Cool Skills</font>
+      <table>
+	<tr><th>Name</th><th>Point</th><th>Bonus</th></tr>
+	{% for skill in cools %}
+	  {% if not forloop.first %}<tr><td colspan="3">&emsp;</td></tr>{% endif %}
+	  <tr><td>{{ skill.name }}</td><td>{{ skill.point }}</td><td>{{ skill.bonus }}</td></tr>
+	    <td colspan="3">
+	      <form action="/obj/delete/{{ char.name }}/skill/{{ skill.id }}">
+		<input type="button" value="Edit" style="width:48%;" onclick="location.href='/obj/edit/{{ char.name }}/skill/{{ skill.id }}';" />
+		<input  id="Skill" type="submit" style="width:48%;" value="Delete" onclick="return confirm('Are you sure to delete this '+this.id+'?');" />
+	      </form>
+	    </td></tr>
+	{% endfor %}<!--end of skill-->
+      </table>
+    </div>
+  </div>
+{% endif %}
+<!--end of cools-->
+
+{% if empathies %}
+  <div class="section skill">
+  <div class="handle"></div>
+    <div id="helper">
+      <font size="5">Empathy Skills</font>
+      <table>
+	<tr><th>Name</th><th>Point</th><th>Bonus</th></tr>
+	{% for skill in empathies %}
+	  {% if not forloop.first %}<tr><td colspan="3">&emsp;</td></tr>{% endif %}
+	  <tr><td>{{ skill.name }}</td><td>{{ skill.point }}</td><td>{{ skill.bonus }}</td></tr>
+	    <td colspan="3">
+	      <form action="/obj/delete/{{ char.name }}/skill/{{ skill.id }}">
+		<input type="button" value="Edit" style="width:48%;" onclick="location.href='/obj/edit/{{ char.name }}/skill/{{ skill.id }}';" />
+		<input  id="Skill" type="submit" style="width:48%;" value="Delete" onclick="return confirm('Are you sure to delete this '+this.id+'?');" />
+	      </form>
+	    </td></tr>
+	{% endfor %}<!--end of skill-->
+      </table>
+    </div>
+  </div>
+{% endif %}
+<!--end of empathies-->
+
+{% if ints %}
+  <div class="section skill">
+  <div class="handle"></div>
+    <div id="helper">
+      <font size="5">Intelligence Skills</font>
+      <table>
+	<tr><th>Name</th><th>Point</th><th>Bonus</th></tr>
+	{% for skill in ints %}
+	  {% if not forloop.first %}<tr><td colspan="3">&emsp;</td></tr>{% endif %}
+	  <tr><td>{{ skill.name }}</td><td>{{ skill.point }}</td><td>{{ skill.bonus }}</td></tr>
+	    <td colspan="3">
+	      <form action="/obj/delete/{{ char.name }}/skill/{{ skill.id }}">
+		<input type="button" value="Edit" style="width:48%;" onclick="location.href='/obj/edit/{{ char.name }}/skill/{{ skill.id }}';" />
+		<input  id="Skill" type="submit" style="width:48%;" value="Delete" onclick="return confirm('Are you sure to delete this '+this.id+'?');" />
+	      </form>
+	    </td></tr>
+	{% endfor %}<!--end of skill-->
+      </table>
+    </div>
+  </div>
+{% endif %}
+<!--end of ints-->
+
+{% if techs %}
+  <div class="section skill">
+  <div class="handle"></div>
+    <div id="helper">
+      <font size="5">Tech Skills</font>
+      <table>
+	<tr><th>Name</th><th>Point</th><th>Bonus</th></tr>
+	{% for skill in techs %}
+	  {% if not forloop.first %}<tr><td colspan="3">&emsp;</td></tr>{% endif %}
+	  <tr><td>{{ skill.name }}</td><td>{{ skill.point }}</td><td>{{ skill.bonus }}</td></tr>
+	    <td colspan="3">
+	      <form action="/obj/delete/{{ char.name }}/skill/{{ skill.id }}">
+		<input type="button" value="Edit" style="width:48%;" onclick="location.href='/obj/edit/{{ char.name }}/skill/{{ skill.id }}';" />
+		<input  id="Skill" type="submit" style="width:48%;" value="Delete" onclick="return confirm('Are you sure to delete this '+this.id+'?');" />
+	      </form>
+	    </td></tr>
+	{% endfor %}<!--end of skill-->
+      </table>
+    </div>
+  </div>
+{% endif %}<!--end of techs -->
+
+{% if refs %}
+  <div class="section skill">
+  <div class="handle"></div>
+    <div id="helper">
+      <font size="5">Reflex Skills</font>
+      <table>
+	<tr><th>Name</th><th>Point</th><th>Bonus</th></tr>
+	{% for skill in refs %}
+	  {% if not forloop.first %}<tr><td colspan="3">&emsp;</td></tr>{% endif %}
+	  <tr><td>{{ skill.name }}</td><td>{{ skill.point }}</td><td>{{ skill.bonus }}</td></tr>
+	    <td colspan="3">
+	      <form action="/obj/delete/{{ char.name }}/skill/{{ skill.id }}">
+		<input type="button" value="Edit" style="width:48%;" onclick="location.href='/obj/edit/{{ char.name }}/skill/{{ skill.id }}';" />
+		<input  id="Skill" type="submit" style="width:48%;" value="Delete" onclick="return confirm('Are you sure to delete this '+this.id+'?');" />
+	      </form>
+	    </td></tr>
+	{% endfor %}<!--end of skill-->
+      </table>
+    </div>
+  </div>
+{% endif %}
+<!--end of refs-->
+<!--closing of skills-->
+
+{% if charobj.lifepath.all %}
+  <div class="section">
+  <div class="handle"></div>
+    <div id="helper">
+      <font size="5">Life Path</font>
+      <table>
+	<tr><th>Age</th><th>Description</th><th></th><th></th></tr>	  
+	{% for life in charobj.lifepath.all %}
+	  {% if not forloop.first %}<tr><td colspan="2">&emsp;</td></tr>{% endif %}
+	  <tr><td>{{ life.age }}</td>
+	    <td><textarea rows="8" cols="15" readonly>{{ life.desc }}</textarea></td>
+	    </tr>
+	    <tr>
+	      <form action="/obj/delete/{{ char.name }}/lifepath/{{ life.id }}">
+		<td colspan="2">
+		  <input type="button" style="width:48%;" value="  Edit  " style="height:12em;" onclick="location.href='/obj/edit/{{ char.name }}/lifepath/{{ life.id }}';" />
+		  <input style="width:48%;" id="Life Path" type="submit" value="Delete" onclick="return confirm('Are you sure to delete this '+this.id+'?');" />
+	      </form>
+		</td></tr>
+	{% endfor %}<!--end of life-->
+	</table>
+    </div>
+  </div>
+{% endif %}<!--end of charobj.lifepath.all-->
+
+<div class="section">
+  <div class="handle"></div>
+  <div id="helper">
+      <font size="5" style="margin-bottom: 15px;">Notes</font>
+      <table>
+	<tr><td><textarea id="notes" style="width:100%;" readonly>{{ char.notes }}</textarea></td></tr>
+      </table>
+  </div>
+</div>
+
+{% if charobj.contact.all %}
+  {% for con in charobj.contact.all %}
+    <div class="section contact">
+  <div class="handle"></div>
+      <div id="helper">
+	<font size="5">Contact</font>
+	<table class="contact">
+	  <tr><td>
+	    <table>
+	      <tr><th>Name</th><td>{{ con.ctname }}</td></tr>
+	      <tr><th>Capability</th><td>{{ con.get_capability_display }}</td></tr>
+	      <tr><th>Loyalty</th><td>{{ con.get_loyalty_display }}</td></tr>
+	      <tr><th>Access</th><td>{{ con.get_access_display }}</td></tr>
+	      <tr><th>Availability</th><td>{{ con.get_availability_display }}</td></tr>	      
+	    </table>
+	  </td><td>
+	    <table>
+	      <tr><th>Notes</th></tr>
+	      <tr><td><textarea rows="6" cols="25" readonly>{{ con.notes }}</textarea></td></tr>
+	    </table>
+	  </td></tr>
+	  <tr><td colspan="2">
+	    <form action="/obj/delete/{{ char.name }}/contact/{{ con.id }}">
+	      <input type="button" style="width: 48%;" value="Edit" onclick="location.href='/obj/edit/{{ char.name }}/contact/{{ con.id }}';" />
+	      <input id="Contact"  style="width: 48%;" type="submit" value="Delete" onclick="return confirm('Are you sure to delete this '+this.id+'?');" />
+	    </form>
+	  </td></tr>
+	</table>
+      </div>
+    </div>
+  {% endfor %}<!--endfor con -->
+{% endif %}
+<!--end if charobj.contact.all-->
+
+<div class="section"><!-- character basic info -->
+  <div class="handle"></div>
+  <div id="helper">
+    <font size="5" style="text-align: center; margin-bottom: 15px;">Basic Info.</font>
+    <table>
+      <tr><th>Ethnicity</th><td>{{ char.ethnicity }}</td></tr>
+      <tr><th>Primay Role</th><td>{{ char.primaryRole }}</td></tr>
+      <tr><th>Secondary Role</th><td>{{ char.secondaryRole }}</td></tr>
+      <tr><th>Monthly Salary</th><td>{{ char.monSalary }}</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="section">
+  <div class="handle"></div>
+  <div id="helper">
+    <font size="5" style="text-align: center; margin-bottom: 15px;">Financial Info.</font>
+    <table>
+      {% for coin in charobj.money.all %}
+	<tr><th>Cash</th><td>{{ coin.cash }}</td></tr>
+	<tr><th>Online Account</th><td>{{ coin.onlineAcct }}</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+
+<div class="section">
+  <div class="handle"></div>
+  <div id="helper">
+    <font size="5" style="text-align: center; margin-bottom: 15px;">Residential Info.</font>
+    <table>
+      {% for res in charobj.residence.all %}
+	<tr><th>Residence Details</th><td>{{ res.resDetails }}</td></tr>
+	<tr><th>Distict Location</th><td>{{ res.districtLoc }}</td></tr>
+	<tr><th>Residence Type</th><td>{{ res.Type }}</td></tr>
+	<tr><th>Residence Rent</th><td>{{ res.rent }}</td></tr>
+      {% endfor %}
+    </table>
+  </div>    
+</div>
+
+
+{% if unEqweapons %}
+  <div class="section unequipped">
+  <div class="handle"></div>
+    <div id="helper">
+      <font style="margin-bottom: 15px;" size="5">Weapon</font>
+      <table>
+	{% for wep in unEqweapons %}
+	  {% if not forloop.first %}<tr><td colspan="2">&emsp;</td></tr>{% endif %}
+	  {% for verbose, field in wep %}
+	    {% if verbose != "ID" and verbose != "char" and verbose != "equipped" %}
+	      <tr><th>{{ verbose }}</th><td>{{ field }}</td></tr>
+	    {% endif %}
+	  {% endfor %}
+	  <tr><td colspan="2"><input type="button"  style="width: 100%;" value="Equip" onclick="location.href='/obj/equip/{{ char.name }}/weapon/{{ wep.id }}';" /></td></tr>
+	  <form action="/obj/delete/{{ char.name }}/weapon/{{ wep.id }}">
+	    <tr><td colspan="2"><input type="button"  style="width: 48%;" value="Edit" style="width:48%;" onclick="location.href='/obj/edit/{{ char.name }}/weapon/{{ wep.id }}';" />
+	      <input id="Weapon" type="submit"  style="width: 48%;" value="Delete" onclick="return confirm('Are you sure to delete this '+this.id+'?');" /></td>
+	    </tr>
+	  </form>
+	{% endfor %}
+      </table>
+    </div>
+  </div>
+{% endif %}<!--end of charobj.weapon.all-->
+
+{% if unEqarmors %}
+  <div class="section unequipped">
+  <div class="handle"></div>
+    <div id="helper">
+      <font size="5" style="margin-bottom: 15px;">Armor</font>
+      <table>
+	{% for armor in unEqarmors|dictsort:'Category' %}
+	  {% if not forloop.first %}<tr><td colspan="2">&emsp;</td></tr>{% endif %}
+	  {% for verbose, field in armor %}
+	    {% if verbose != "ID" and verbose != "char" and verbose != "equipped" %}
+	      <tr><th>{{ verbose }}</th><td>{{ field }}</td></tr>
+	    {% endif %}<!--end of if verbose == "ID"-->
+	  {% endfor %}<!--end of verbose, field-->
+	  <tr><td colspan="2">
+	    <input type="button"  style="width: 100%;" value="Equip" onclick="location.href='/obj/equip/{{ char.name }}/armor/{{ armor.id }}';" />
+	  </td></tr>
+	  <tr><td colspan="2">
+	    <form action="/obj/delete/{{ char.name }}/armor/{{ armor.id }}">
+	      <input type="button" value="Edit" style="width:48%;" onclick="location.href='/obj/edit/{{ char.name }}/armor/{{ armor.id }}';" />		
+	      <input id="Armor: {{ armor.Category }}" type="submit"  style="width: 48%;" value="Delete" onclick="return confirm('Are you sure to delete this '+this.id+'?');" />
+	    </form>
+	  </td></tr>
+	{% endfor %}
+      </table>
+    </div>
+  </div>
+{% endif %}<!--end of charobj.armor.all-->
+
+{% if unEqvehicle %}
+  <div class="section unequipped">
+  <div class="handle"></div>
+    <div id="helper">
+      <font syule="margin-bottom: 15px;" size="5">Vehicle</font>
+      <table>
+	{% for veh in unEqvehicle %}
+	  {% if not forloop.first %}<tr><td colspan="2">&emsp;</td></tr>{% endif %}
+	  {% for verbose, field in veh %}
+	    {% if verbose != "ID" and verbose != "char" and verbose != "equipped" %}
+	      <tr><th>{{ verbose }}</th><td>{{ field }}</td></tr>
+	    {% endif %}<!--end of if verbose == "ID"--> 
+	  {% endfor %}<!--end of field-->
+	  <tr><td colspan="2">
+	    <input type="button" value="Equip"  style="width: 100%;" onclick="location.href='/obj/equip/{{ char.name }}/vehicle/{{ veh.id }}';" />
+	  </td></tr>
+	  <tr><td colspan="2">
+	    <form action="/obj/delete/{{ char.name }}/vehicle/{{ veh.id }}">
+	      <input type="button" value="Edit" style="width:48%;" onclick="location.href='/obj/edit/{{ char.name }}/vehicle/{{ veh.id }}';" />
+	      <input id="Vehicle" type="submit" value="Delete"  style="width: 48%;" onclick="return confirm('Are you sure to delete this '+this.id+'?');" />
+	    </form>
+	  </td></tr>
+	{% endfor %}
+      </table>
+    </div>
+  </div>
+{% endif %}<!--end of charobj.vehicle.all-->
+
+{% if unEqcyberbio %}
+  <div class="section unequipped">
+  <div class="handle"></div>
+    <div id="helper">
+      <font size="5" style="margin-bottom: 15px;">Cybertech/Bioware</font>
+      <table>
+	{% for cyb in charobj.cyber_bio.all %}
+	  {% if not forloop.first %}<tr><td colspan="2">&emsp;</td></tr>{% endif %}
+	  {% for verbose, field in cyb %}
+	    {% if verbose != "ID" and verbose != "char" %}
+	      <tr><th>{{ verbose }}</th><td>{{ field }}</td></tr>
+	    {% endif %}<!--end of if verbose=="ID"-->
+	  {% endfor %}<!--end of verbose, field-->
+	  <tr>
+	    <td colspan="2">
+	      <input type="button"  style="width: 100%;" value="Equip" onclick="location.href='/obj/equip/{{ char.name }}/cyber_bio/{{ cyb.id }}';" /></td></tr>
+	  <tr><td colspan="2">
+	    <form action="/obj/delete/{{ char.name }}/cyber_bio/{{ cyb.id }}">
+	      <input type="button" value="Edit" style="width:48%;" onclick="location.href='/obj/edit/{{ char.name }}/cyber_bio/{{ cyb.id }}';" />
+	      <input id="Cybertech/Bioware"  style="width: 48%;" type="submit" value="Delete" onclick="return confirm('Are you sure to delete this '+this.id+'?');" />
+	    </form>
+	  </td>
+	  </tr>
+	{% endfor %}
+      </table>
+    </div>
+  </div>	
+{% endif %}<!--end of charobj.cyber_bio.all-->
+
+{% if charobj.inventory.all %}
+    <div class="section unequipped">
+  <div class="handle"></div>
+      <div id="helper">
+	<font size="5">Equipment</font>
+	<table>
+	  {% for equip in charobj.inventory.all %}
+	    {% if not forloop.first %}<tr><td colspan="2">&emsp;</td></tr>{% endif %}
+	    {% for verbose, field in equip %}
+	      {% if verbose != "ID" and verbose != "char" %}
+		<tr><th>{{ verbose }}</th><td>{{ field }}</td></tr>
+	      {% endif %}<!--end if verbose == "ID" -->
+	    {% endfor %}<!--end of verbose, field-->
+	    <tr><td colspan="2">
+	      <form action="/obj/delete/{{ char.name }}/equipment/{{ equip.id }}">
+		<input type="button"  style="width: 48%;" value="Edit" onclick="location.href='/obj/edit/{{ char.name }}/equipment/{{ equip.id }}';" />
+		<input id="Equipment" type="submit"  style="width: 48%;" value="Delete" onclick="return confirm('Are you sure to delete this '+this.id+'?');" />
+	      </form>
+	    </td></tr>
+	  {% endfor %}<!--endfor of charobj.inventory.all-->
+	</table>
+      </div>
+    </div>
+{% endif %}<!--end of charobj.inventory.all-->
+
+{% if benefits %}
+    <div class="section">
+  <div class="handle"></div>
+      <div id="helper">
+	<font size="5">Benefit</font>
+	  <table>
+	    <tr><th>Description</th><th>Effect</th><th>Cost</th></tr>	    
+	    {% for benefit in benefits %}
+	      {% if not forloop.first %}<tr><td colspan="3">&emsp;</td></tr>{% endif %}
+	      <tr><td>{{ benefit.desc }}</td><td>{{ benefit.effect }}</td><td>{{ benefit.cost }}</td></tr>
+	      <tr><td colspan="3">
+		<form action="/obj/delete/{{ char.name }}/effect/{{ benefit.id }}">
+		  <input type="button" style="width: 48%;" value="  Edit  " onclick="location.href='/obj/edit/{{ char.name }}/effect/{{ benefit.id }}';" />
+		  <input id="Benefit" style="width: 48%;" type="submit" value="Delete" onclick="return confirm('Are you sure to delete this '+this.id+'?');" />
+		</form>
+	      </td></tr>
+	    {% endfor %}<!--end of benefit-->
+	  </table>
+      </div>
+    </div>
+{% endif %}<!--end of benefits-->
+
+{% if penalties %}
+  <div class="section">
+  <div class="handle"></div>
+      <div id="helper">
+	<font size="5">Penalty</font>
+	<table>
+	  <tr><th>Description</th><th>Effect</th><th>Cost</th></tr>
+	  {% for penal in penalties %}
+	    {% if not forloop.first %}<tr><td colspan="3">&emsp;</td></tr>{% endif %}
+	    <tr><td><b>{{ penal.desc }}</b></td><td>{{ penal.effect }}</td><td>{{ penal.cost }}</td></tr>
+	    <tr><td colspan="3">
+	      <form action="/obj/delete/{{ char.name }}/effect/{{ penal.id }}">
+		<input type="button" style="width: 48%;" value="  Edit  " onclick="location.href='/obj/edit/{{ char.name }}/effect/{{ penal.id }}';" />	    
+		<input id="Penalty" type="submit" style="width: 48%;" value="Delete" onclick="return confirm('Are you sure to delete this '+this.id+'?');" />
+	      </form>
+	    </td></tr>
+	  {% endfor %}<!--end of penal-->
+	</table>
+      </div>
+    </div>
+{% endif %}<!--end of penalties-->
+
+{% if charobj.wound.all %}
+  <div class="section">
+    <div class="handle"></div>
+      <div id="helper">
+	<font size="5">Wound</font>
+	<table>
+	  <tr><th><b>Current Wound</b></th><th>Cur. rate per day</th></tr>
+	  {% for wo in charobj.wound.all %}
+	    {% if not forloop.first %}<tr><td colspan="2">&emsp;</td></tr>{% endif %}
+	    <tr><td>{{ wo.curWound }}</td><td>{{ wo.curRateperDay }}</td></tr>
+	    <tr><td colspan="2">
+	      <form action="/obj/delete/{{ char.name }}/wound/{{ wo.id }}">
+		<input type="button" value="Edit" style="width: 48%;" onclick="location.href='/obj/edit/{{ char.name }}/wound/{{ wo.id }}';" />
+		<input id="Wound" style="width: 48%;" type="submit" value="Delete" onclick="return confirm('Are you sure to delete this '+this.id+'?');" />
+	      </form>
+	    </td></tr>
+	  {% endfor %}<!--end of wo-->
+	</table>
+      </div>
+    </div>
+{% endif %}<!--end of charobj.wound.all-->
+<!--closing of character effects.specific status-->
+
+<div class="section panel"><!--panel for Add anything-->
+  <div class="handle"></div>
+  <div id="helper">
+    <font size="5" style="margin-bottom: 15px;">Data Control Panel</font>
+    {% if messages %}
+      {% for message in messages %}
+	{% if 'stat' or 'skill' or 'benefit' or 'penalty' or 'cyber_bio' or 'lifepath' in message.tags %}
+	  <font size="4" style="color:red;">{{ message }}</font>
+	{% endif %}
+      {% endfor %}
+    {% endif %} 
+    <table>      
+      <tr><td colspan="2">
+	<select id="category" style="width:100%; margin-left: 0;">
+	  <option value="skill">Skill</option>
+	  <option value="lifepath">Life Path</option>
+	  <option value="effect">Effect</option>
+	  <option value="wound">Wound</option>
+	  <option value="contact">Contact</option>
+	  <option value="weapon">Weapon</option>
+	  <option value="armor">Armor</option>
+	  <option value="vehicle">Vehicle</option>
+	  <option value="equipment">Equipment</option>
+	  <option value="cyber_bio">Cybertech/Bioware</option>
+	</select></td></tr>
+      <tr><td colspan="2">
+	<input style="width:100%;" type="button" value="Add" onclick="location.href='/obj/new/{{ char.name }}/'+document.getElementById('category').value;" />
+      </td></tr>
+      <tr><td class="border-bottom" colspan="2">&emsp;</td></tr>
+      <tr><th>IP</th><td>{{ char.ip }}</td></tr>
+      {% for stat in charobj.stat.all %}
+	<tr><th>Total Stat Point</th><td>{{ stat.total }}</td></tr>
+      {% endfor %}
+      <tr><th>Total Skill Point</th><td>{{ char.totskill }}</td></tr>
+      <tr><th>Contact Point</th><td>{{ char.contactpts }}</td></tr>
+      <tr><td colspan="2" style="border-top: 1px solid #333333;">&emsp;</td></tr>
+      <form action="/char/delete/{{ char.id }}">
+	<tr>
+	  <td><input type="button" value="Edit" style="width:100%;" onclick="location.href='/char/edit/{{ char.id }}';"></td>      
+	  <td><input id="Character" type="submit" style="width:100%;" value="Delete" onclick="return confirm('Are you sure to delete this '+this.id+'?');" /></td>
+	</tr>
+      </form>
+    </table>
+  </div>
+</div>
+
+{% endfor %}<!--end of char-->
+{% endblock %}

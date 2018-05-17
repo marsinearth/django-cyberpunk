@@ -1,0 +1,24 @@
+{% extends "base.djhtml" %}
+{% block content %}
+<div class="matchTitleWidth">
+  <div class="innerContainer">
+    <div id="helper">
+      <font size="5">Thank you for registering.</font>
+      <br />
+      <p id="sec">In 3 seconds, Random Access Memory Test will be initiated.<br />
+	Embrace Yourself!</p>
+    </div>
+  </div>
+</div>
+<script language="Javascript">
+$(function() {
+   var i = 3;
+   setInterval(function() {
+     i--;     
+     if (i <= 0) window.location.href = "/";
+     else if (i == 1) $("#sec").html("In "+i.toString()+" second, Random Access Memory Test will be initiated. <br />Embrace Yourself!");
+     else $("#sec").html("In "+i.toString()+" seconds, Random Access Memory Test will be initiated. <br />Embrace Yourself!");
+   }, 1000);
+});
+</script>
+{% endblock %}

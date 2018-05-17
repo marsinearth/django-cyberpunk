@@ -1,0 +1,28 @@
+{% extends "base.djhtml" %}
+{% block content %}
+<div class="matchTitleWidth">
+  <div id="helper">
+    <font size="5">{{ charname }}'s {{ obj }} Registration Node</font> 
+    <form method="post" action=".">
+      {% csrf_token %}
+      {% if charlock %}
+	  <font size="4" style="color:red;">{{ obj }} is not directly editable. An email of request will be sent to administrator.</font>
+      {% endif %}<!--endif charlock-->
+      {% for field in form.visible_fields %}
+	<p class="vertical-align">
+	  {{ field.label_tag }}: {{ field }}
+	  {% if field.errors %}
+	    <font style="color:red;">{{ field.errors }}</font>
+	  {% endif %}
+	</p>
+      {% endfor %}
+      {% if charlock %}
+	<input type="submit" value="Send Email to admin for editing {{ obj }}" />
+      {% else %}
+	  <input type="submit" value="Register {{ obj }}" />
+      {% endif %}<!--endif charlock-->
+      <input type="button" value="Go Back" onclick="history.go(-1);return true;" /></td></tr>
+    </form>
+  </div>
+</div>
+{% endblock %}

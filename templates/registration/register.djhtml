@@ -1,0 +1,18 @@
+{% extends "base.djhtml" %}
+{% block content %}
+<div class="section matchTitleWidth">
+  <div class="innerContainer" style="width: 300px;">
+    <div id="helper">
+      <font size="5">Registration Node</font>
+      <form method="post" action=".">
+	{% csrf_token %}
+	{{ regform.as_p }}
+	{{ userform.as_p }}
+	<br />
+	<input type="submit" value="register" />
+	<input type="button" value="Go Back" onclick="location.href='/';" />
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

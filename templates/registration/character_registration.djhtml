@@ -1,0 +1,47 @@
+{% extends "base.djhtml" %}
+{% block content %}
+  <style type="text/css">
+   label[for="id_name"],label[for="id_ethnicity"],label[for="id_primaryRole"],label[for="id_secondaryRole"], label[for="id_monSalary"], label[for="id_notes"] {
+     display: block;
+   }  
+  </style>  
+  <form method="post" action=".">
+    {% csrf_token %}
+    <div class="matchTitleWidth">
+      <div id="helper">
+	<font size="5">{{ request.user.username }}'s Warp Node</font>
+	<div style="margin-top:15px">
+	  <input type="submit" value="Register Character" />
+	  <input type="button" value="Go Back" onclick="history.go(-1);return true;" />
+	</div>
+      </div>
+    </div>
+    </div>
+    <div id="packery">
+      <div class="section">
+	<div class="handle"></div>
+	<div id="helper">	 
+	  <font size="5">Basic Information</font>
+	  {{ charform.as_p }}
+	</div>
+      </div>
+      <div class="section table">
+	<div class="handle"></div>
+	<div id="helper">	 
+	  <font size="5">Statistics</font>
+	  {{ statform.as_p }}
+	  <span style="color:red;">Total skill point should be less than 60 points</span>
+	</div>
+      </div>
+      <div class="section table">
+	<div class="handle"></div>
+	<div id="helper">	  
+	  <font size="5">Detailed Information</font>
+	  {{ moneyform.as_p }}
+	  {{ resform.as_p }}
+	</div>
+      </div>
+    </div>
+  </form>
+  <div>
+{% endblock %}

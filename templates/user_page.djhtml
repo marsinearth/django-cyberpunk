@@ -1,0 +1,37 @@
+{% extends "base.djhtml" %}
+{% block content %}
+<div class="matchTitleWidth">
+  <div id="helper">
+  {% if request.user.is_authenticated %} <!-- user is logged in -->
+    <font size="5">{{user.username}}'s Node</font>
+    {% for userprof in user.profile.all %}
+      <p>
+	<label for="chatzy">Chatzy Screen Name:</label><input type="text" id="chatzy" value="{{ userprof.chatzyname }}" readonly /><br />
+	<label for="AIM_Skype">AIM or Skype Screen Name:</label><input type="text" id="AIM_Skype" value="{{ userprof.AIM_Skype }}" readonly />
+      </p>
+      <input type="button" value="Edit Screen Names" onclick="location.href='/user/edit/{{ userprof.id }}'" />
+    {% endfor %}
+    <input type="button"  onclick="location.href='/char/new/'" value="Create a new character" />
+    {% if user.chars.all %}
+      <div style="margin-top: 15px;">Select a character from below</div>
+    {% endif %}
+  </div>
+</div>
+
+</div> <!--end of div container -->
+<div id="msnry" class="js-masonry" data-masonry-options='{ "itemSelector" : ".section", "isFitWidth": true }'>
+{% for char in user.chars.all %}
+  <div class="section chartable">
+    <a href="/character/{{ char.name }}">
+    <div style="text-align: center;"><font size="5">{{ char.name }}</font></div>
+    <div>{{ char.ethnicity }} {{ char.primaryRole }}{% if char.secondaryRole %}, {{ char.secondaryRole }}{% endif %}</div>
+    <div>IP: {{ char.ip }}</div>
+    <div>created at: {{ char.created|date:"SHORT_DATE_FORMAT" }}{% if char.modified %}<br />modified at: {{ char.modified|date:"SHORT_DATE_FORMAT" }}{% endif %}</div> 
+    </a>
+  </div>
+{% endfor %}
+{% else %}<!--if user is not logged in-->
+<a href="/login/"><font size="5">Hello Anonymous User! Please Log In.</font></a>
+</div>
+{% endif %}
+{% endblock %}
